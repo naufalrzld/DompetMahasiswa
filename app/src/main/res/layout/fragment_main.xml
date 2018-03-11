@@ -1,0 +1,213 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorGrey"
+    tools:context="mbd.dompetmahasiswa.fragments.MainFragment">
+
+    <ScrollView
+        android:id="@+id/scrl_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="15dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/tv_pemasukan"
+                            android:textSize="18sp"
+                            android:layout_weight="0.5"/>
+
+                        <TextView
+                            android:id="@+id/tv_income"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            tools:text="Rp. 50.000"
+                            android:textSize="18sp"
+                            android:textColor="@color/colorPrimary"
+                            android:layout_weight="0.5"
+                            android:gravity="end"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="5dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/tv_pengeluaran"
+                            android:textSize="18sp"
+                            android:layout_weight="0.5"/>
+
+                        <TextView
+                            android:id="@+id/tv_outcome"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            tools:text="Rp. 25.000"
+                            android:textSize="18sp"
+                            android:textColor="@color/colorRed"
+                            android:layout_weight="0.5"
+                            android:gravity="end"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="@color/colorDarkGrey"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/tv_Saldo"
+                            android:textSize="18sp"
+                            android:layout_weight="0.5"/>
+
+                        <TextView
+                            android:id="@+id/tv_Sisa"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            tools:text="Rp. 25.000"
+                            android:textSize="18sp"
+                            android:textColor="@color/colorPrimary"
+                            android:textStyle="bold"
+                            android:layout_weight="0.5"
+                            android:gravity="end"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <RadioGroup
+                            android:id="@+id/rg_type_transaction"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:checkedButton="@id/rb_income"
+                            android:gravity="center"
+                            tools:ignore="UselessParent">
+
+                            <RadioButton
+                                android:id="@+id/rb_income"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.5"
+                                android:text="@string/tv_pemasukan"
+                                android:background="@drawable/rb_selected"
+                                android:button="@null"
+                                android:gravity="center"
+                                android:padding="10dp"
+                                android:textColor="@drawable/rb_text_selected"/>
+
+                            <RadioButton
+                                android:id="@+id/rb_outcome"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.5"
+                                android:text="@string/tv_pengeluaran"
+                                android:background="@drawable/rb_selected"
+                                android:button="@null"
+                                android:gravity="center"
+                                android:padding="10dp"
+                                android:textColor="@drawable/rb_text_selected"/>
+
+                        </RadioGroup>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lyt_income"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="10dp">
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/rv_income"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lyt_outcome"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="10dp"
+                        android:visibility="gone">
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/rv_outcome"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/tv_no_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_transaction"
+        android:textSize="22sp"
+        android:layout_gravity="center"/>
+
+</FrameLayout>
