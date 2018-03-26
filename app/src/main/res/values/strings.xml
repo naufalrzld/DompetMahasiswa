@@ -9,4 +9,6 @@
     <string name="tv_rp">Rp.</string>
     <string name="hint_note">Note</string>
     <string name="hint_tanggal">Tanggal</string>
+    <string name="menu_title_simpan">Simpan</string>
+    <string name="hint_null_nominal">0</string>
 </resources>

@@ -5,7 +5,7 @@
     android:background="@color/colorGrey"
     tools:context="mbd.dompetmahasiswa.fragments.MainFragment">
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:id="@+id/scrl_item"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -97,7 +97,7 @@
                             android:layout_weight="0.5"/>
 
                         <TextView
-                            android:id="@+id/tv_Sisa"
+                            android:id="@+id/tv_sisa"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             tools:text="Rp. 25.000"
@@ -126,9 +126,58 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/tv_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="25"
+                            android:textSize="28sp"
+                            android:textColor="@color/colorBlack"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginEnd="5dp" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/tv_day"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                tools:text="Minggu"
+                                android:textColor="@color/colorBlack"/>
+
+                            <TextView
+                                android:id="@+id/tv_month_year"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                tools:text="Maret 2018"
+                                android:textColor="@color/colorBlack"/>
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tv_total_income"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="Rp. 200.000"
+                            android:textSize="18sp"
+                            android:textColor="@color/colorBlack"
+                            android:layout_gravity="center"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <RadioGroup
+                    <RadioGroup
                             android:id="@+id/rg_type_transaction"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -200,7 +249,7 @@
 
         </LinearLayout>
 
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
     <TextView
         android:id="@+id/tv_no_data"
