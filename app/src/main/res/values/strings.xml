@@ -4,7 +4,9 @@
     <string name="tv_pengeluaran">Pengeluaran</string>
     <string name="tv_Saldo">Saldo</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="no_transaction">Tidak ada transaksi</string>
+    <string name="tv_rp">Rp.</string>
+    <string name="hint_note">Note</string>
+    <string name="hint_tanggal">Tanggal</string>
 </resources>
