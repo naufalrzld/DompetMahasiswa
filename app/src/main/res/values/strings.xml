@@ -11,4 +11,10 @@
     <string name="hint_tanggal">Tanggal</string>
     <string name="menu_title_simpan">Simpan</string>
     <string name="hint_null_nominal">0</string>
+    <string name="menu_title_dompet">Dompet</string>
+    <string name="tv_no_wallet">Anda tidak mempunyai wallet</string>
+    <string name="tv_no_wallet_2">Silahkan klik tombol + untuk membuat wallet</string>
+    <string name="activity_title_wallet">Pilih Wallet</string>
+    <string name="hint_nama_wallet">Nama Wallet</string>
+    <string name="activity_title_add_wallet">Tambah Wallet</string>
 </resources>

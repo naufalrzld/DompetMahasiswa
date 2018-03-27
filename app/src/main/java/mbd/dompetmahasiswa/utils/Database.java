@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mbd.dompetmahasiswa.models.IncomeModel;
+import mbd.dompetmahasiswa.models.WalletModel;
 
 /**
  * Created by Naufal on 26/03/2018.
@@ -21,8 +22,13 @@ public class Database extends SQLiteOpenHelper {
 
     private static final int DB_VERSION = 1;
     private static final String DB_NAME = "DompetMahasiswaDB";
+    private static final String TB_WALLET = "tb_wallet";
     private static final String TB_INCOME = "tb_income";
     private static final String TB_OUTCOME = "tb_outcome";
+
+    private static final String KEY_WALLET_ID = "wallet_id";
+    private static final String KEY_WALLET_NAME = "wallet_name";
+    private static final String KEY_BALANCE = "balance";
 
     private static final String KEY_ID = "id";
     private static final String KEY_INCOME = "income";
@@ -36,8 +42,15 @@ public class Database extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        String CREATE_WALLET_TABLE = "CREATE TABLE " + TB_WALLET + "(" +
+                KEY_WALLET_ID + " INTEGER PRIMARY KEY, " +
+                KEY_WALLET_NAME + " TEXT, " +
+                KEY_BALANCE + " INTEGER " + ")";
+        sqLiteDatabase.execSQL(CREATE_WALLET_TABLE);
+
         String CREATE_INCOME_TABLE = "CREATE TABLE " + TB_INCOME + "(" +
                 KEY_ID + " INTEGER PRIMARY KEY, " +
+                KEY_WALLET_ID + " INTEGER, " +
                 KEY_INCOME + " INTEGER, " +
                 KEY_NOTE + " TEXT, " +
                 KEY_DATE + " TEXT" + ")";
@@ -45,6 +58,7 @@ public class Database extends SQLiteOpenHelper {
 
         String CREATE_OUTCOME_TABLE = "CREATE TABLE " + TB_OUTCOME + "(" +
                 KEY_ID + " INTEGER PRIMARY KEY, " +
+                KEY_WALLET_ID + " INTEGER, " +
                 KEY_INCOME + " INTEGER, " +
                 KEY_NOTE + " TEXT, " +
                 KEY_DATE + " TEXT" + ")";
@@ -56,10 +70,76 @@ public class Database extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         if (oldVersion >= newVersion)
             return;
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TB_WALLET);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TB_INCOME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TB_OUTCOME);
 
         onCreate(sqLiteDatabase);
+    }
+
+    public boolean walletIsEmpty() {
+        String query = "SELECT count(*) FROM " + TB_WALLET;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        if (count > 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public int addWallet(WalletModel walletModel) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(KEY_WALLET_NAME, walletModel.getWalletName());
+        values.put(KEY_BALANCE, walletModel.getBalance());
+
+        long ID = db.insert(TB_WALLET, null, values);
+        db.close();
+        Log.d(TAG, "New Wallet Insert into Table Wallet: " +ID);
+        return (int) ID;
+    }
+
+    public List<WalletModel> getAllWallet() {
+        List<WalletModel> listWallet = new ArrayList<>();
+        String query = "SELECT * FROM " + TB_WALLET;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                WalletModel walletModel = new WalletModel();
+                walletModel.setId(cursor.getInt(0));
+                walletModel.setWalletName(cursor.getString(1));
+                walletModel.setBalance(cursor.getInt(2));
+
+                listWallet.add(walletModel);
+            } while (cursor.moveToNext());
+        }
+
+        return listWallet;
+    }
+
+    public WalletModel getWallet(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TB_WALLET, new String[] {
+                KEY_WALLET_ID,
+                KEY_WALLET_NAME,
+                KEY_BALANCE
+        }, KEY_WALLET_ID + "=?", new String[] {String.valueOf(id)}, null, null, null, null);
+
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        WalletModel walletModel = new WalletModel(cursor.getInt(0), cursor.getString(1), cursor.getInt(2));
+
+        return walletModel;
     }
 
     public int addIncome(IncomeModel incomeModel) {

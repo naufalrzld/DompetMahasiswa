@@ -7,7 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -19,8 +22,12 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import mbd.dompetmahasiswa.activity.AddTransactionActivity;
+import mbd.dompetmahasiswa.activity.WalletActivity;
 import mbd.dompetmahasiswa.adapter.ViewPagerAdapter;
 import mbd.dompetmahasiswa.fragments.MainFragment;
+import mbd.dompetmahasiswa.models.WalletModel;
+import mbd.dompetmahasiswa.utils.Database;
+import mbd.dompetmahasiswa.utils.SharedPreferenceUtil;
 
 public class MainActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
@@ -36,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.fab_add_expanse)
     FloatingActionButton fabAddExpanse;
 
+    private Database db;
     private ViewPagerAdapter adapter;
 
     @Override
@@ -46,24 +54,37 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.app_name);
+        getSupportActionBar().setSubtitle("Test");
+
+        db = new Database(this);
 
         fabAddIncome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fabAdd.collapse();
-                Intent i = new Intent(MainActivity.this, AddTransactionActivity.class);
-                i.putExtra("type", AddTransactionActivity.TYPE_INCOME);
-                startActivity(i);
+                if (db.walletIsEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Silahkan buat wallet terlebih dahulu", Toast.LENGTH_SHORT).show();
+                    fabAdd.collapse();
+                } else {
+                    fabAdd.collapse();
+                    Intent i = new Intent(MainActivity.this, AddTransactionActivity.class);
+                    i.putExtra("type", AddTransactionActivity.TYPE_INCOME);
+                    startActivity(i);
+                }
             }
         });
 
         fabAddExpanse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fabAdd.collapse();
-                Intent i = new Intent(MainActivity.this, AddTransactionActivity.class);
-                i.putExtra("type", AddTransactionActivity.TYPE_EXPANSE);
-                startActivity(i);
+                if (db.walletIsEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Silahkan buat wallet terlebih dahulu", Toast.LENGTH_SHORT).show();
+                    fabAdd.collapse();
+                } else {
+                    fabAdd.collapse();
+                    Intent i = new Intent(MainActivity.this, AddTransactionActivity.class);
+                    i.putExtra("type", AddTransactionActivity.TYPE_EXPANSE);
+                    startActivity(i);
+                }
             }
         });
 
@@ -122,5 +143,34 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void getWallet(int walletID) {
+        WalletModel walletModel = db.getWallet(walletID);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferenceUtil sharedPreferenceUtil = new SharedPreferenceUtil(this);
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_wallet:
+                Intent i = new Intent(MainActivity.this, WalletActivity.class);
+                startActivity(i);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
