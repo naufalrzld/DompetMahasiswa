@@ -26,6 +26,7 @@ import mbd.dompetmahasiswa.activity.WalletActivity;
 import mbd.dompetmahasiswa.adapter.ViewPagerAdapter;
 import mbd.dompetmahasiswa.fragments.MainFragment;
 import mbd.dompetmahasiswa.models.WalletModel;
+import mbd.dompetmahasiswa.utils.CurrencyConverter;
 import mbd.dompetmahasiswa.utils.Database;
 import mbd.dompetmahasiswa.utils.SharedPreferenceUtil;
 
@@ -45,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Database db;
     private ViewPagerAdapter adapter;
+    private SharedPreferenceUtil sharedPreferenceUtil;
+    private CurrencyConverter currencyConverter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +57,10 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.app_name);
-        getSupportActionBar().setSubtitle("Test");
 
         db = new Database(this);
+        sharedPreferenceUtil = new SharedPreferenceUtil(this);
+        currencyConverter = new CurrencyConverter();
 
         fabAddIncome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
                     fabAdd.collapse();
                     Intent i = new Intent(MainActivity.this, AddTransactionActivity.class);
                     i.putExtra("type", AddTransactionActivity.TYPE_EXPANSE);
+                    i.putExtra("wallet", getWallet(sharedPreferenceUtil.getWalletID()));
                     startActivity(i);
                 }
             }
@@ -145,16 +150,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void getWallet(int walletID) {
-        WalletModel walletModel = db.getWallet(walletID);
-
+    private WalletModel getWallet(int walletID) {
+        return db.getWallet(walletID);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        SharedPreferenceUtil sharedPreferenceUtil = new SharedPreferenceUtil(this);
-
+        if (sharedPreferenceUtil.getWalletID() != 0) {
+            WalletModel walletModel = getWallet(sharedPreferenceUtil.getWalletID());
+            getSupportActionBar().setTitle(walletModel.getWalletName());
+            getSupportActionBar().setSubtitle(currencyConverter.convertToIDR(walletModel.getBalance()));
+        }
     }
 
     @Override

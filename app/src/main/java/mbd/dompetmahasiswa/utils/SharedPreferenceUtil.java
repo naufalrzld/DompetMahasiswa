@@ -19,12 +19,12 @@ public class SharedPreferenceUtil {
         editor = sharedPreferences.edit();
     }
 
-    public void setWallet(int walletID) {
+    public void setWalletID(int walletID) {
         editor.putInt(KEY_WALLET_ID, walletID);
         editor.commit();
     }
 
-    public int getWallet() {
+    public int getWalletID() {
         return sharedPreferences.getInt(KEY_WALLET_ID, 0);
     }
 }

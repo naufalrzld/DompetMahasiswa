@@ -22,6 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import mbd.dompetmahasiswa.R;
 import mbd.dompetmahasiswa.models.IncomeModel;
+import mbd.dompetmahasiswa.models.WalletModel;
 import mbd.dompetmahasiswa.utils.Database;
 
 public class AddTransactionActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
@@ -35,14 +36,17 @@ public class AddTransactionActivity extends AppCompatActivity implements DatePic
     EditText etNote;
     @BindView(R.id.et_date)
     EditText etDate;
+    @BindView(R.id.et_wallet)
+    EditText etWallet;
 
     public static final String TYPE_INCOME = "income";
     public static final String TYPE_EXPANSE = "expanse";
 
     private Database db;
 
-    private Intent dataaIntent;
+    private Intent dataIntent;
     private String type, date, toolbarTitle;
+    private WalletModel walletModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +60,8 @@ public class AddTransactionActivity extends AppCompatActivity implements DatePic
 
         db = new Database(this);
 
-        dataaIntent = getIntent();
-        type = dataaIntent.getStringExtra("type");
+        dataIntent = getIntent();
+        type = dataIntent.getStringExtra("type");
 
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -68,8 +72,12 @@ public class AddTransactionActivity extends AppCompatActivity implements DatePic
 
         if (type.equals(TYPE_EXPANSE)) {
             toolbarTitle = "Pengeluaran";
+
+            walletModel = dataIntent.getParcelableExtra("wallet");
+
             tvRp.setTextColor(this.getResources().getColor(R.color.colorRed));
             etNominal.setTextColor(this.getResources().getColor(R.color.colorRed));
+            etWallet.setText(walletModel.getWalletName());
         } else {
             toolbarTitle = "Pendapatan";
         }

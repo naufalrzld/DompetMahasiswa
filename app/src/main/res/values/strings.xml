@@ -17,4 +17,5 @@
     <string name="activity_title_wallet">Pilih Wallet</string>
     <string name="hint_nama_wallet">Nama Wallet</string>
     <string name="activity_title_add_wallet">Tambah Wallet</string>
+    <string name="hint_wallet">Wallet</string>
 </resources>

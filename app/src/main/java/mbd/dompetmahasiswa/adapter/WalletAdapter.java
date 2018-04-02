@@ -51,7 +51,7 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletAdapter.ViewHolder
         holder.walletItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sharedPreferenceUtil.setWallet(walletModel.getId());
+                sharedPreferenceUtil.setWalletID(walletModel.getId());
                 ((Activity)context).finish();
             }
         });
