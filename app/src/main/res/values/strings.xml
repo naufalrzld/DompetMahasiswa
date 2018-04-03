@@ -18,4 +18,6 @@
     <string name="hint_nama_wallet">Nama Wallet</string>
     <string name="activity_title_add_wallet">Tambah Wallet</string>
     <string name="hint_wallet">Wallet</string>
+    <string name="tv_no_income">Tidak ada pendapatan</string>
+    <string name="tv_no_outcome">Tidak ada pengeluaran</string>
 </resources>

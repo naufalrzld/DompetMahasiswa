@@ -6,6 +6,7 @@ package mbd.dompetmahasiswa.models;
 
 public class IncomeModel {
     private int ID;
+    private int walletID;
     private int income;
     private String note;
     private String date;
@@ -13,14 +14,16 @@ public class IncomeModel {
     public IncomeModel() {
     }
 
-    public IncomeModel(int income, String note, String date) {
+    public IncomeModel(int walletID, int income, String note, String date) {
+        this.walletID = walletID;
         this.income = income;
         this.note = note;
         this.date = date;
     }
 
-    public IncomeModel(int ID, int income, String note, String date) {
+    public IncomeModel(int ID, int walletID, int income, String note, String date) {
         this.ID = ID;
+        this.walletID = walletID;
         this.income = income;
         this.note = note;
         this.date = date;
@@ -32,6 +35,14 @@ public class IncomeModel {
 
     public void setID(int ID) {
         this.ID = ID;
+    }
+
+    public int getWalletID() {
+        return walletID;
+    }
+
+    public void setWalletID(int walletID) {
+        this.walletID = walletID;
     }
 
     public int getIncome() {

@@ -9,9 +9,13 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import mbd.dompetmahasiswa.R;
+import mbd.dompetmahasiswa.models.IncomeModel;
 import mbd.dompetmahasiswa.models.WalletModel;
 import mbd.dompetmahasiswa.utils.Database;
 
@@ -24,6 +28,7 @@ public class AddWalletActivity extends AppCompatActivity {
     EditText etBalance;
 
     private Database db;
+    private String date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +42,11 @@ public class AddWalletActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         db = new Database(this);
+
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+        date = sdf.format(calendar.getTime());
     }
 
     private boolean isValidInput() {
@@ -60,9 +70,10 @@ public class AddWalletActivity extends AppCompatActivity {
         int balance = Integer.parseInt(etBalance.getText().toString());
 
         int ID = db.addWallet(new WalletModel(walletName, balance));
+        int incomeID = db.addIncome(new IncomeModel(ID, balance, "Saldo Awal", date));
 
         String message;
-        if (ID != 0) {
+        if (ID != 0 && incomeID != 0) {
             message = "Wallet berhasil dibuat";
         } else {
             message = "Wallet gagal dibuat";

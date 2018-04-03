@@ -14,32 +14,38 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import mbd.dompetmahasiswa.R;
 import mbd.dompetmahasiswa.models.IncomeModel;
+import mbd.dompetmahasiswa.models.OutcomeModel;
+import mbd.dompetmahasiswa.utils.CurrencyConverter;
 
 /**
  * Created by Naufal on 26/03/2018.
  */
 
-public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.ViewHolder> {
+public class TransactionIncomeAdapter extends RecyclerView.Adapter<TransactionIncomeAdapter.ViewHolder> {
     private Context context;
     private List<IncomeModel> incomeList;
+    private List<OutcomeModel> outcomeList;
 
-    public TransactionAdapter(Context context, List<IncomeModel> incomeList) {
+    public TransactionIncomeAdapter(Context context, List<IncomeModel> incomeList) {
         this.context = context;
         this.incomeList = incomeList;
     }
 
     @Override
-    public TransactionAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public TransactionIncomeAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.transaction_item, parent, false);
 
         return new ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(TransactionAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(TransactionIncomeAdapter.ViewHolder holder, int position) {
         IncomeModel incomeModel = incomeList.get(position);
+
+        CurrencyConverter currencyConverter = new CurrencyConverter();
+
         holder.tvNote.setText(incomeModel.getNote());
-        holder.tvNominal.setText(String.valueOf(incomeModel.getIncome()));
+        holder.tvNominal.setText(currencyConverter.convertToIDR(incomeModel.getIncome()));
     }
 
     @Override

@@ -6,12 +6,24 @@ package mbd.dompetmahasiswa.models;
 
 public class OutcomeModel {
     private int id;
-    private int outcome;
+    private int walletID;
+    private int outcome = 0;
     private String note;
     private String date;
 
-    public OutcomeModel(int id, int outcome, String note, String date) {
+    public OutcomeModel() {
+    }
+
+    public OutcomeModel(int walletID, int outcome, String note, String date) {
+        this.walletID = walletID;
+        this.outcome = outcome;
+        this.note = note;
+        this.date = date;
+    }
+
+    public OutcomeModel(int id, int walletID, int outcome, String note, String date) {
         this.id = id;
+        this.walletID = walletID;
         this.outcome = outcome;
         this.note = note;
         this.date = date;
@@ -23,6 +35,14 @@ public class OutcomeModel {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getWalletID() {
+        return walletID;
+    }
+
+    public void setWalletID(int walletID) {
+        this.walletID = walletID;
     }
 
     public int getOutcome() {

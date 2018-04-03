@@ -22,6 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import mbd.dompetmahasiswa.R;
 import mbd.dompetmahasiswa.models.IncomeModel;
+import mbd.dompetmahasiswa.models.OutcomeModel;
 import mbd.dompetmahasiswa.models.WalletModel;
 import mbd.dompetmahasiswa.utils.Database;
 
@@ -62,6 +63,7 @@ public class AddTransactionActivity extends AppCompatActivity implements DatePic
 
         dataIntent = getIntent();
         type = dataIntent.getStringExtra("type");
+        walletModel = dataIntent.getParcelableExtra("wallet");
 
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -73,13 +75,15 @@ public class AddTransactionActivity extends AppCompatActivity implements DatePic
         if (type.equals(TYPE_EXPANSE)) {
             toolbarTitle = "Pengeluaran";
 
-            walletModel = dataIntent.getParcelableExtra("wallet");
-
             tvRp.setTextColor(this.getResources().getColor(R.color.colorRed));
             etNominal.setTextColor(this.getResources().getColor(R.color.colorRed));
             etWallet.setText(walletModel.getWalletName());
         } else {
             toolbarTitle = "Pendapatan";
+
+            tvRp.setTextColor(this.getResources().getColor(R.color.colorPrimary));
+            etNominal.setTextColor(this.getResources().getColor(R.color.colorPrimary));
+            etWallet.setText(walletModel.getWalletName());
         }
 
         getSupportActionBar().setTitle(toolbarTitle);
@@ -102,8 +106,17 @@ public class AddTransactionActivity extends AppCompatActivity implements DatePic
     private void save() {
         int nominal = Integer.parseInt(etNominal.getText().toString());
         String note = etNote.getText().toString();
+        int total = calculateWallet(type, walletModel.getBalance(), nominal);
+        walletModel.setBalance(total);
 
-        db.addIncome(new IncomeModel(nominal, note, date));
+        if (type.equals(TYPE_INCOME)) {
+            db.addIncome(new IncomeModel(walletModel.getId(), nominal, note, date));
+        } else {
+            db.addOutcome(new OutcomeModel(walletModel.getId(), nominal, note, date));
+        }
+
+        db.updateWallet(walletModel);
+
         Toast.makeText(getApplicationContext(), "Tersimpan", Toast.LENGTH_SHORT).show();
     }
 
@@ -147,5 +160,16 @@ public class AddTransactionActivity extends AppCompatActivity implements DatePic
         }
         date = dayOfMonth + "/" + month + "/" + year;
         etDate.setText(date);
+    }
+
+    private int calculateWallet(String type, int wallet, int nominal) {
+        int result = 0;
+        if (type.equals(TYPE_EXPANSE)) {
+            result = wallet - nominal;
+        } else {
+            result = wallet + nominal;
+        }
+
+        return result;
     }
 }

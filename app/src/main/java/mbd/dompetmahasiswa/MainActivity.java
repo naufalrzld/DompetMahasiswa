@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
                     fabAdd.collapse();
                     Intent i = new Intent(MainActivity.this, AddTransactionActivity.class);
                     i.putExtra("type", AddTransactionActivity.TYPE_INCOME);
+                    i.putExtra("wallet", getWallet(sharedPreferenceUtil.getWalletID()));
                     startActivity(i);
                 }
             }
@@ -157,6 +158,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        setupViewPager(viewPager);
+        tabs.setupWithViewPager(viewPager);
         if (sharedPreferenceUtil.getWalletID() != 0) {
             WalletModel walletModel = getWallet(sharedPreferenceUtil.getWalletID());
             getSupportActionBar().setTitle(walletModel.getWalletName());
