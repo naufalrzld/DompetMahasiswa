@@ -187,6 +187,7 @@ public class Database extends SQLiteOpenHelper {
                 incomeList.add(incomeModel);
             } while (cursor.moveToNext());
         }
+        db.close();
         return incomeList;
     }
 
@@ -225,6 +226,7 @@ public class Database extends SQLiteOpenHelper {
                 outcomeList.add(outcomeModel);
             } while (cursor.moveToNext());
         }
+        db.close();
         return outcomeList;
     }
 }
